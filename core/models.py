@@ -7,7 +7,7 @@ from django.utils import timezone
 class Base(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=32)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -23,7 +23,7 @@ class Bag(Base):
 
 
 class Pack(Base):
-    bag = models.OneToOneField(Bag, on_delete=models.CASCADE)
+    bag = models.ForeignKey(Bag, on_delete=models.CASCADE, related_name="packs")
     items = models.ManyToManyField("Item", related_name="packs")
 
 

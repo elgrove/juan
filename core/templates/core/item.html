@@ -1,0 +1,9 @@
+<ul>
+    <li>{{ item.name }}</li>
+</ul>
+<br>
+<ul>
+    {% for pack in item.packs.all %}
+    <li><a href="/pack/{{ pack.id }}/">{{ pack.name }}</a></li>
+    {% endfor %}
+</ul>
