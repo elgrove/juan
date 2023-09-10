@@ -14,3 +14,12 @@ test:
     elif [ $$EXIT_CODE -eq 5 ]; then exit 0 ; \
     else exit $$EXIT_CODE ; \
     fi'
+
+run:
+	poetry run python manage.py runserver
+
+migrate:
+	poetry run python manage.py migrate 
+
+migrations:
+	poetry run python manage.py makemigrations 

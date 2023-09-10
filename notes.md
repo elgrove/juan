@@ -13,6 +13,7 @@ some sort of source control so you can go back to previous bags?
 ## MVP
 
 ### MODELS
+
 item model:
 name
 description
