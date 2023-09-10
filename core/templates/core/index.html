@@ -1,7 +1,7 @@
 {% if packs %}
     <ul>
     {% for pack in packs %}
-        <li><a href="/pack/{{ pack.id }}">{{ pack.name }}</a></li>
+        <li><a href="{% url 'pack_view' pack.id %}">{{ pack.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

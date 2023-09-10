@@ -4,6 +4,6 @@
 <br>
 <ul>
     {% for pack in item.packs.all %}
-    <li><a href="/pack/{{ pack.id }}/">{{ pack.name }}</a></li>
+    <li><a href="{% url 'pack_view' pack.id %}">{{ pack.name }}</a></li>
     {% endfor %}
 </ul>
