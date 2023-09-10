@@ -1,0 +1,10 @@
+<h1>bags</h1>
+{% if bags %}
+    <ul>
+    {% for bag in bags %}
+        <li><a href="{% url 'bag_view' bag.id %}">{{ bag.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No bags exist yet.</p>
+{% endif %}

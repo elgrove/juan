@@ -23,5 +23,3 @@ class PackForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["bag"].queryset = models.Bag.objects.all()
         self.fields["items"].queryset = models.Item.objects.all()
-        print(self.fields["bag"].queryset)  # Debugging line
-        print(self.fields["items"].queryset)  # Debugging line

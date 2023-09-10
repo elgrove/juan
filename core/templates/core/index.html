@@ -1,9 +1,3 @@
-{% if packs %}
-    <ul>
-    {% for pack in packs %}
-        <li><a href="{% url 'pack_view' pack.id %}">{{ pack.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No packs exist yet.</p>
-{% endif %}
+<a href="{% url 'packs_view' %}">Packs</a>
+<a href="{% url 'bags_view' %}">Bags</a>
+<a href="{% url 'items_view' %}">Items</a>

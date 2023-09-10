@@ -1,0 +1,10 @@
+<h1>Packs</h1>
+{% if packs %}
+    <ul>
+    {% for pack in packs %}
+        <li><a href="{% url 'pack_view' pack.id %}">{{ pack.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No packs exist yet.</p>
+{% endif %}

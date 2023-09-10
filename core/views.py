@@ -75,7 +75,22 @@ def item_view(request, item_id=None):
 
         if form.is_valid():
             form.save()
-            return redirect(request.path)  # Redirects to the same URL
+            return redirect(request.path)
 
     context = {"form": form, "item_id": item_id}
     return render(request, "core/item.html", context)
+
+
+def items_view(request):
+    items = Item.objects.all().order_by("-modified_at")
+    return render(request, "core/items.html", {"items": items})
+
+
+def bags_view(request):
+    bags = Bag.objects.all().order_by("-modified_at")
+    return render(request, "core/bags.html", {"bags": bags})
+
+
+def packs_view(request):
+    packs = Pack.objects.all().order_by("-modified_at")
+    return render(request, "core/packs.html", {"packs": packs})
