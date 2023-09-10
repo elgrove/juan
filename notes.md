@@ -31,6 +31,12 @@ name
 description
 dimensions
 
+
+hierarchy order:
+bag first
+then items
+then pack
+
 ### VIEWS
 
 home - select a pack
@@ -40,6 +46,26 @@ pack view - like lighterpack
 item view -list sorted into categories
 click into an item
 add or remove it from bags
+
+### FORMS
+
+create/update item:
+name
+description optional
+category
+packs this item is in (multiple select)
+
+create/update bag:
+name
+description
+
+create/update pack:
+name
+description
+bag
+for each item category:
+    a multiple select box with the items
+
 
 ## LATER
 

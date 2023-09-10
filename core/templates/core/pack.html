@@ -1,9 +1,8 @@
-<ul>
-    <li><a href="{% url 'bag_view' pack.bag.id %}">{{ pack.bag.name }}</a></li>
-</ul>
-<br>
-<ul>
-    {% for item in pack.items.all %}
-    <li><a href="{% url 'item_view' item.id %}">{{ item.name }}</a></li>
-    {% endfor %}
-</ul>
+<h1>{{ pack.name }}</h1>
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
