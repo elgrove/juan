@@ -63,11 +63,14 @@ create/update pack:
 name
 description
 bag
-for each item category:
-    a multiple select box with the items
-
+items
 
 ## LATER
 
-item - dimensions, weight
-bag - days, weather, location
+- item - dimensions, weight
+- bag - days, weather, location
+- dockerize
+- tests
+- generic views (list view, item view)
+- class based views
+- pack view should show checkboxes for each item category

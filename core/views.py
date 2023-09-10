@@ -1,7 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
+from django.urls import reverse_lazy
 from core.forms import BagForm, ItemForm, PackForm
+from django.views.generic import CreateView, UpdateView
+from django.views.generic import ListView
 
 from core.models import Bag, Item, Pack
 
@@ -13,84 +16,79 @@ from core.models import Bag, Item, Pack
 
 
 def index(request):
-    packs = Pack.objects.all().order_by("-modified_at")
-    context = {"packs": packs}
-    return render(request, "core/index.html", context)
+    return render(request, "core/index.html", {})
 
 
-def pack_view(request, pack_id=None):
-    if pack_id:
-        pack = get_object_or_404(Pack, pk=pack_id)
-        form = PackForm(instance=pack)
-    else:
-        form = PackForm()
+class PackCreateView(CreateView):
+    model = Pack
+    form_class = PackForm
+    template_name = "core/pack.html"
 
-    if request.method == "POST":
-        if pack_id:
-            form = PackForm(request.POST, instance=pack)
-        else:
-            form = PackForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(request.path)
-
-    context = {"form": form, "pack_id": pack_id}
-    return render(request, "core/pack.html", context)
+    def get_success_url(self):
+        return reverse_lazy("packs_list")
 
 
-def bag_view(request, bag_id=None):
-    if bag_id:
-        bag = get_object_or_404(Bag, pk=bag_id)
-        form = BagForm(instance=bag)
-    else:
-        form = BagForm()
+class BagCreateView(CreateView):
+    model = Bag
+    form_class = BagForm
+    template_name = "core/bag.html"
 
-    if request.method == "POST":
-        if bag_id:
-            form = BagForm(request.POST, instance=bag)
-        else:
-            form = BagForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(request.path)
-
-    context = {"form": form, "bag_id": bag_id}
-    return render(request, "core/bag.html", context)
+    def get_success_url(self):
+        return reverse_lazy("bags_list")
 
 
-def item_view(request, item_id=None):
-    if item_id:
-        item = get_object_or_404(Item, pk=item_id)
-        form = ItemForm(instance=item)
-    else:
-        form = ItemForm()
+class ItemCreateView(CreateView):
+    model = Item
+    form_class = ItemForm
+    template_name = "core/item.html"
 
-    if request.method == "POST":
-        if item_id:
-            form = ItemForm(request.POST, instance=item)
-        else:
-            form = ItemForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect(request.path)
-
-    context = {"form": form, "item_id": item_id}
-    return render(request, "core/item.html", context)
+    def get_success_url(self):
+        return reverse_lazy("items_list")
 
 
-def items_view(request):
-    items = Item.objects.all().order_by("-modified_at")
-    return render(request, "core/items.html", {"items": items})
+class PackUpdateView(UpdateView):
+    model = Pack
+    form_class = PackForm
+    template_name = "core/pack.html"
+
+    def get_success_url(self):
+        return reverse_lazy("packs_list")
 
 
-def bags_view(request):
-    bags = Bag.objects.all().order_by("-modified_at")
-    return render(request, "core/bags.html", {"bags": bags})
+class BagUpdateView(UpdateView):
+    model = Bag
+    form_class = BagForm
+    template_name = "core/bag.html"
+
+    def get_success_url(self):
+        return reverse_lazy("bags_list")
 
 
-def packs_view(request):
-    packs = Pack.objects.all().order_by("-modified_at")
-    return render(request, "core/packs.html", {"packs": packs})
+class ItemUpdateView(UpdateView):
+    model = Item
+    form_class = ItemForm
+    template_name = "core/item.html"
+
+    def get_success_url(self):
+        return reverse_lazy("items_list")
+
+
+class ItemListView(ListView):
+    model = Item
+    template_name = "core/items.html"
+    context_object_name = "items"
+    ordering = ["-modified_at"]
+
+
+class BagListView(ListView):
+    model = Bag
+    template_name = "core/bags.html"
+    context_object_name = "bags"
+    ordering = ["-modified_at"]
+
+
+class PackListView(ListView):
+    model = Pack
+    template_name = "core/packs.html"
+    context_object_name = "packs"
+    ordering = ["-modified_at"]
