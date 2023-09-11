@@ -5,10 +5,13 @@
 {% endblock%}
 
 {% block content %}
+
+<a href="{% url 'pack_create' %}">Create a new pack</a>
+
 {% if packs %}
-    <ul>
+    <ul class="list-group">
     {% for pack in packs %}
-        <li><a href="{% url 'pack_update' pack.id %}">{{ pack.name }}</a></li>
+        <li class="list-group-item"><a href="{% url 'pack_update' pack.id %}">{{ pack.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

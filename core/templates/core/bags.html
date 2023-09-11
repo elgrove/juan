@@ -4,11 +4,16 @@
 <h1>Bags</h1>
 {% endblock %}
 
+
 {% block content %}
+
+<a href="{% url 'bag_create' %}">Create a new bag</a>
+
+
 {% if bags %}
-    <ul>
+    <ul class="list-group">
     {% for bag in bags %}
-        <li><a href="{% url 'bag_update' bag.id %}">{{ bag.name }}</a></li>
+        <li class="list-group-item"><a href="{% url 'bag_update' bag.id %}">{{ bag.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
