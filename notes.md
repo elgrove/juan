@@ -74,3 +74,4 @@ items
 - generic views (list view, item view)
 - class based views
 - pack view should show checkboxes for each item category
+

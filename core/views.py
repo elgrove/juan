@@ -1,13 +1,10 @@
+from core.forms import BagForm, ItemForm, PackForm
+from core.models import Bag, Item, Pack
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse_lazy
-from core.forms import BagForm, ItemForm, PackForm
-from django.views.generic import CreateView, UpdateView
-from django.views.generic import ListView
-
-from core.models import Bag, Item, Pack
-
+from django.views.generic import CreateView, ListView, UpdateView
 
 # index select packs, items or bags
 # pack view
