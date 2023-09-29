@@ -1,3 +1,4 @@
+import logging
 from core.forms import BagForm, ItemForm, PackForm
 from core.models import Bag, Item, Pack
 from django.http import HttpResponse
@@ -6,10 +7,7 @@ from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView
 
-# index select packs, items or bags
-# pack view
-# bag view
-# items view
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -75,6 +73,22 @@ class ItemListView(ListView):
     template_name = "core/items.html"
     context_object_name = "items"
     ordering = ["-modified_at"]
+
+    @property
+    def categories(self):
+        return list({item.category for item in self.object_list})
+
+    @property
+    def category_map(self):
+        return {
+            category: [item for item in self.object_list if item.category == category]
+            for category in self.categories
+        }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_map"] = self.category_map
+        return context
 
 
 class BagListView(ListView):

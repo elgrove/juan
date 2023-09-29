@@ -1,6 +1,9 @@
+import logging
 from django import forms
 
 from . import models
+
+logger = logging.getLogger(__name__)
 
 
 class BagForm(forms.ModelForm):
@@ -24,3 +27,14 @@ class PackForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["bag"].queryset = models.Bag.objects.all()
         self.fields["items"].queryset = models.Item.objects.all()
+
+        if not self.instance.pk:
+            self.selected_items = []
+        else:
+            self.selected_items = list(self.instance.items.values_list("id", flat=True))
+
+        self.category_choices = {}
+        for item in models.Item.objects.all():
+            self.category_choices.setdefault(item.category, []).append(
+                (item.id, item.name)
+            )

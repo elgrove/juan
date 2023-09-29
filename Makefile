@@ -8,12 +8,7 @@ lint: format
 	poetry run pylint core project
 
 test:
-	@bash -c 'poetry run pytest ; \
-    EXIT_CODE=$$? ; \
-    if [ -z "$$EXIT_CODE" ]; then exit 1 ; \
-    elif [ $$EXIT_CODE -eq 5 ]; then exit 0 ; \
-    else exit $$EXIT_CODE ; \
-    fi'
+	poetry run python manage.py test
 
 run:
 	poetry run python manage.py runserver

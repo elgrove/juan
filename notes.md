@@ -67,11 +67,13 @@ items
 
 ## LATER
 
-- item - dimensions, weight
-- bag - days, weather, location
-- dockerize
-- tests
-- generic views (list view, item view)
-- class based views
-- pack view should show checkboxes for each item category
-
+- [x] items list view to show items by category
+- [ ] item - dimensions, weight
+- [ ] bag - days, weather, location
+- [ ] dockerize
+- [ ] tests
+- [ ] class based views
+- [ ] create/update item - show categories as list or allow typed entry to create a new one
+- [ ] import from lighterpack
+- [ ] bulk add items (no attach to pack, just add items by name and maybe description)
+- [ ] 
