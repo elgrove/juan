@@ -1,8 +1,9 @@
+from django.forms.models import model_to_dict
 from django.test import TestCase
 from django.urls import reverse
-from core.models import Item
+
 from core.forms import ItemForm
-from django.forms.models import model_to_dict
+from core.models import Item
 
 TEST_ITEM = {
     "name": "TestItem",

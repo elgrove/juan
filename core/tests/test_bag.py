@@ -1,8 +1,9 @@
+from django.forms.models import model_to_dict
 from django.test import TestCase
 from django.urls import reverse
-from core.models import Bag
+
 from core.forms import BagForm
-from django.forms.models import model_to_dict
+from core.models import Bag
 
 
 class BagFormTest(TestCase):

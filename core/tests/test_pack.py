@@ -1,9 +1,8 @@
-from django.forms import model_to_dict
 from django.test import TestCase
 from django.urls import reverse
+
 from core.forms import PackForm
-from core.models import Pack, Bag, Item
-from core.forms import PackForm
+from core.models import Bag, Item
 
 
 class PackCreateViewTest(TestCase):

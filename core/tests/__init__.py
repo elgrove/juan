@@ -1,11 +1,11 @@
-import django
 import os
-
-os.environ["DJANGO_SETTINGS_MODULE"] = "project.settings"
 
 import django
 from django.apps import apps
 from django.test.utils import setup_databases, setup_test_environment
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "project.settings"
+
 
 if not apps.ready:
     django.setup()  # Normal Django setup
