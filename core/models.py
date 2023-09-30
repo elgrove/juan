@@ -16,6 +16,10 @@ class Base(models.Model):
         return self.name
 
 
+class Item(Base):
+    category = models.CharField(max_length=32)
+
+
 class Bag(Base):
     pass
 
@@ -23,7 +27,3 @@ class Bag(Base):
 class Pack(Base):
     bag = models.ForeignKey(Bag, on_delete=models.CASCADE, related_name="packs")
     items = models.ManyToManyField("Item", related_name="packs")
-
-
-class Item(Base):
-    category = models.CharField(max_length=32)

@@ -23,24 +23,6 @@ class PackCreateView(CreateView):
         return reverse_lazy("packs_list")
 
 
-class BagCreateView(CreateView):
-    model = Bag
-    form_class = BagForm
-    template_name = "core/bag.html"
-
-    def get_success_url(self):
-        return reverse_lazy("bags_list")
-
-
-class ItemCreateView(CreateView):
-    model = Item
-    form_class = ItemForm
-    template_name = "core/item.html"
-
-    def get_success_url(self):
-        return reverse_lazy("items_list")
-
-
 class PackUpdateView(UpdateView):
     model = Pack
     form_class = PackForm
@@ -50,6 +32,22 @@ class PackUpdateView(UpdateView):
         return reverse_lazy("packs_list")
 
 
+class PackListView(ListView):
+    model = Pack
+    template_name = "core/packs.html"
+    context_object_name = "packs"
+    ordering = ["-modified_at"]
+
+
+class BagCreateView(CreateView):
+    model = Bag
+    form_class = BagForm
+    template_name = "core/bag.html"
+
+    def get_success_url(self):
+        return reverse_lazy("bags_list")
+
+
 class BagUpdateView(UpdateView):
     model = Bag
     form_class = BagForm
@@ -57,6 +55,22 @@ class BagUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("bags_list")
+
+
+class BagListView(ListView):
+    model = Bag
+    template_name = "core/bags.html"
+    context_object_name = "bags"
+    ordering = ["-modified_at"]
+
+
+class ItemCreateView(CreateView):
+    model = Item
+    form_class = ItemForm
+    template_name = "core/item.html"
+
+    def get_success_url(self):
+        return reverse_lazy("items_list")
 
 
 class ItemUpdateView(UpdateView):
@@ -89,17 +103,3 @@ class ItemListView(ListView):
         context = super().get_context_data(**kwargs)
         context["category_map"] = self.category_map
         return context
-
-
-class BagListView(ListView):
-    model = Bag
-    template_name = "core/bags.html"
-    context_object_name = "bags"
-    ordering = ["-modified_at"]
-
-
-class PackListView(ListView):
-    model = Pack
-    template_name = "core/packs.html"
-    context_object_name = "packs"
-    ordering = ["-modified_at"]

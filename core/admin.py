@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bag, Item, Pack
+from core.models import Bag, Item, Pack
 
 admin.site.register(Pack)
 admin.site.register(Bag)

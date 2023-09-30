@@ -1,40 +1,42 @@
 import logging
 from django import forms
 
-from . import models
+from core.models import Bag, Item, Pack
 
 logger = logging.getLogger(__name__)
 
 
 class BagForm(forms.ModelForm):
     class Meta:
-        model = models.Bag
+        model = Bag
         fields = ["name", "description"]
 
 
 class ItemForm(forms.ModelForm):
     class Meta:
-        model = models.Item
+        model = Item
         fields = ["name", "description", "category"]
 
 
 class PackForm(forms.ModelForm):
     class Meta:
-        model = models.Pack
+        model = Pack
         fields = ["name", "description", "bag", "items"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["bag"].queryset = models.Bag.objects.all()
-        self.fields["items"].queryset = models.Item.objects.all()
+        self.fields["name"].required = True
+        self.fields["bag"].queryset = Bag.objects.all()
+        self.fields["items"].queryset = Item.objects.all()
+        self.selected_items = []
+        self.category_choices = {}
 
         if not self.instance.pk:
-            self.selected_items = []
+            return
         else:
             self.selected_items = list(self.instance.items.values_list("id", flat=True))
 
-        self.category_choices = {}
-        for item in models.Item.objects.all():
-            self.category_choices.setdefault(item.category, []).append(
-                (item.id, item.name)
-            )
+            for item in Item.objects.all():
+                self.category_choices.setdefault(item.category, []).append(
+                    (item.id, item.name)
+                )
