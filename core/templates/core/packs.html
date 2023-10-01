@@ -14,6 +14,7 @@
     <li><a href="{% url 'pack_update' pack.id %}">{{ pack.name }}</a></li>
     {% endfor %}
 </ul>
+
 {% else %}
 <p>No packs exist yet.</p>
 {% endif %}

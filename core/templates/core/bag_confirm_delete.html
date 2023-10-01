@@ -1,0 +1,22 @@
+{% block content %}
+
+
+{% if bag.packs %}
+<h4>
+    <p>This bag is being used in the following packs:</p>
+</h4>
+<ul>
+    {% for pack in related_packs %}
+    <li><a href="{% url 'pack_update' pk=pack.pk %}">{{ pack.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete "{{ bag.name }}"?</p>
+    {{ form }}
+    <input type="submit" value="Confirm">
+</form>
+
+
+{% endblock %}

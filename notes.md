@@ -68,11 +68,13 @@ items
 ## LATER
 
 - [x] items list view to show items by category
+- [x] tests
+- [x] class based views
+- [ ] delete pack, item, bag
+  - [ ] delete is in but atm deleting a bag cascades and deletes all packs. we want to make the user unattach, or auto unattach for them?
 - [ ] item - dimensions, weight
 - [ ] bag - days, weather, location
 - [ ] dockerize
-- [ ] tests
-- [ ] class based views
 - [ ] create/update item - show categories as list or allow typed entry to create a new one
 - [ ] import from lighterpack
 - [ ] bulk add items (no attach to pack, just add items by name and maybe description)

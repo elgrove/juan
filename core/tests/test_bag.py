@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from core.forms import BagForm
-from core.models import Bag
+from core.models import Bag, Pack
 
 
 class BagFormTest(TestCase):
@@ -37,7 +37,9 @@ class BagUpdateViewTest(TestCase):
         self.bag = Bag.objects.create(name="TestBag", description="test description")
 
     def test_view_url(self):
-        response = self.client.get(reverse("bag_update", args=[str(self.bag.id)]))
+        response = self.client.get(
+            reverse("bag_update", kwargs={"pk": str(self.bag.pk)})
+        )
         self.assertEqual(response.status_code, 200)
 
     def test_update_success(self):
@@ -51,3 +53,36 @@ class BagUpdateViewTest(TestCase):
 
         query_bag = Bag.objects.first()
         assert query_bag.name == "RenamedBag"
+
+
+class BagDeleteViewTest(TestCase):
+    def setUp(self):
+        self.bag = Bag.objects.create(name="TestBag", description="test description")
+        self.related_pack = Pack.objects.create(name="TestPack", bag=self.bag)
+
+    def test_view_url(self):
+        response = self.client.get(
+            reverse("bag_delete", kwargs={"pk": str(self.bag.pk)})
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_confirm_page_related_packs(self):
+        response = self.client.get(
+            reverse("bag_delete", kwargs={"pk": str(self.bag.pk)})
+        )
+        self.assertContains(response, "TestPack")
+
+    def test_delete_detaches_from_related_pack(self):
+        _ = self.client.post(reverse("bag_delete", kwargs={"pk": str(self.bag.pk)}))
+        related_pack = Pack.objects.get(id=self.related_pack.pk)
+        self.assertEqual(related_pack.bag, None)
+
+    def test_delete_success(self):
+        response = self.client.get(
+            reverse("bag_delete", kwargs={"pk": str(self.bag.pk)})
+        )
+        self.assertEquals(response.status_code, 200)
+        response = self.client.post(
+            reverse("bag_delete", kwargs={"pk": str(self.bag.pk)})
+        )
+        self.assertEquals(response.status_code, 302)

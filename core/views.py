@@ -2,7 +2,7 @@ import logging
 
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from core.forms import BagForm, ItemForm, PackForm
 from core.models import Bag, Item, Pack
@@ -25,6 +25,21 @@ class PackCreateView(CreateView):
     def get_success_url(self):
         """Returns create success url."""
         return reverse_lazy("packs_list")
+
+
+class BagDeleteView(DeleteView):
+    model = Bag
+    success_url = reverse_lazy("bags_list")
+
+    @property
+    def related_packs(self):
+        return self.object.packs.get_queryset().all()
+
+    def get_context_data(self, **kwargs):
+        """Extends generic view context."""
+        context = super().get_context_data(**kwargs)
+        context["related_packs"] = self.related_packs
+        return context
 
 
 class PackUpdateView(UpdateView):
@@ -127,7 +142,7 @@ class ItemListView(ListView):
         }
 
     def get_context_data(self, **kwargs):
-        """Extends generic view context to append self.category_map."""
+        """Extends generic view context."""
         context = super().get_context_data(**kwargs)
         context["category_map"] = self.category_map
         return context

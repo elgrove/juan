@@ -46,5 +46,7 @@ class Pack(Base):
     A Pack can have many items.
     """
 
-    bag = models.ForeignKey(Bag, on_delete=models.CASCADE, related_name="packs")
-    items = models.ManyToManyField("Item", related_name="packs")
+    bag = models.ForeignKey(
+        Bag, on_delete=models.SET_NULL, null=True, related_name="packs"
+    )
+    items = models.ManyToManyField("Item", blank=True, related_name="packs")
