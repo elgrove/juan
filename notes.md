@@ -74,8 +74,9 @@ items
   - [ ] delete is in but atm deleting a bag cascades and deletes all packs. we want to make the user unattach, or auto unattach for them?
 - [ ] item - dimensions, weight
 - [ ] bag - days, weather, location
+- [ ] auth, users, logins
 - [ ] dockerize
 - [ ] create/update item - show categories as list or allow typed entry to create a new one
 - [ ] import from lighterpack
 - [ ] bulk add items (no attach to pack, just add items by name and maybe description)
-- [ ] 
+- [ ] replace django test style with pytest

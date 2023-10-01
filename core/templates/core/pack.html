@@ -5,22 +5,28 @@
 {% endblock %}
 
 {% block content %}
+
+{% if pack.pk %}
+<a href="{% url 'pack_delete' pk=pack.pk %}">Delete this pack</a>
+{% endif %}
+
+
 <form method="post">
     <div class="form-group">
-    {% csrf_token %}
-    {{ form.name.label_tag }} {{ form.name }}
-    {{ form.description.label_tag }} {{ form.description }}
-    {{ form.bag.label_tag }} {{ form.bag }}
-    {% for category, choices in form.category_choices.items %}
-    <fieldset>
-        <legend>{{ category }}</legend>
-        {% for choice_id, choice_name in choices %}
-        <input type="checkbox" name="items" value="{{ choice_id }}" id="item_{{ choice_id }}" {% if choice_id in form.selected_items %}checked{% endif %}>
-        <label for="item_{{ choice_id }}">{{ choice_name }}</label><br>
+        {% csrf_token %}
+        {{ form.name.label_tag }} {{ form.name }}
+        {{ form.description.label_tag }} {{ form.description }}
+        {{ form.bag.label_tag }} {{ form.bag }}
+        {% for category, choices in form.category_choices.items %}
+        <fieldset>
+            <legend>{{ category }}</legend>
+            {% for choice_id, choice_name in choices %}
+            <input type="checkbox" name="items" value="{{ choice_id }}" id="item_{{ choice_id }}" {% if choice_id in form.selected_items %}checked{% endif %}>
+            <label for="item_{{ choice_id }}">{{ choice_name }}</label><br>
+            {% endfor %}
+        </fieldset>
         {% endfor %}
-    </fieldset>
-    {% endfor %}
-    <button type="submit">Save</button>
+        <button type="submit">Save</button>
     </div>
 </form>
 {% endblock %}

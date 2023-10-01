@@ -63,6 +63,11 @@ class PackListView(ListView):
     ordering = ["-modified_at"]
 
 
+class PackDeleteView(DeleteView):
+    model = Pack
+    success_url = reverse_lazy("packs_list")
+
+
 class BagCreateView(CreateView):
     """View for creating a Bag."""
 
