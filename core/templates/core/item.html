@@ -5,11 +5,19 @@
 {% endblock%}
 
 {% block content %}
+
+{% if item.pk %}
+<a href="{% url 'item_delete' pk=item.pk %}">Delete this item</a>
+{% endif %}
+
+
 <form method="post">
     <div class="form-group">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
     </div>
 </form>
+
+
 {% endblock %}

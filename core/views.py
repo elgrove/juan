@@ -146,3 +146,18 @@ class ItemListView(ListView):
         context = super().get_context_data(**kwargs)
         context["category_map"] = self.category_map
         return context
+
+
+class ItemDeleteView(DeleteView):
+    model = Item
+    success_url = reverse_lazy("items_list")
+
+    @property
+    def related_packs(self):
+        return self.object.packs.get_queryset().all()
+
+    def get_context_data(self, **kwargs):
+        """Extends generic view context."""
+        context = super().get_context_data(**kwargs)
+        context["related_packs"] = self.related_packs
+        return context

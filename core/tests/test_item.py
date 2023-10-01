@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from core.forms import ItemForm
-from core.models import Item
+from core.models import Item, Pack
 
 TEST_ITEM = {
     "name": "TestItem",
@@ -79,3 +79,34 @@ class ItemListViewTest(TestCase):
         response = self.client.get(reverse("items_list"))
         self.assertTrue("category_map" in response.context)
         self.assertIn("Electronics", response.context["category_map"])
+
+
+class ItemDeleteViewTest(TestCase):
+    def setUp(self):
+        self.item = Item.objects.create(name="TestItem", description="test description")
+        self.related_pack = Pack.objects.create(name="TestPack")
+        self.related_pack.items.set([self.item])
+
+    def test_view_url(self):
+        response = self.client.get(
+            reverse("item_delete", kwargs={"pk": str(self.item.pk)})
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_confirm_page_related_packs(self):
+        response = self.client.get(
+            reverse("item_delete", kwargs={"pk": str(self.item.pk)})
+        )
+        self.assertContains(response, "TestPack")
+
+    def test_delete_detaches_from_related_pack(self):
+        _ = self.client.post(reverse("item_delete", kwargs={"pk": str(self.item.pk)}))
+        related_pack = Pack.objects.get(id=self.related_pack.pk)
+        items = related_pack.items.get_queryset().all()
+        self.assertNotIn(self.item, items)
+
+    def test_delete_success(self):
+        response = self.client.post(
+            reverse("item_delete", kwargs={"pk": str(self.item.pk)})
+        )
+        self.assertEquals(response.status_code, 302)
