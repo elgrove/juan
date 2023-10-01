@@ -70,8 +70,7 @@ items
 - [x] items list view to show items by category
 - [x] tests
 - [x] class based views
-- [ ] delete pack, item, bag
-  - [ ] delete is in but atm deleting a bag cascades and deletes all packs. we want to make the user unattach, or auto unattach for them?
+- [x] delete pack, item, bag
 - [ ] item - dimensions, weight
 - [ ] bag - days, weather, location
 - [ ] auth, users, logins

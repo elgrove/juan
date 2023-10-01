@@ -14,7 +14,7 @@ class BagForm(forms.ModelForm):
         """Meta."""
 
         model = Bag
-        fields = ["name", "description"]
+        fields = ["name", "description", 'weight', 'height', 'width', 'depth']
 
 
 class ItemForm(forms.ModelForm):
@@ -24,7 +24,7 @@ class ItemForm(forms.ModelForm):
         """Meta."""
 
         model = Item
-        fields = ["name", "description", "category"]
+        fields = ["name", "description", "category", 'weight', 'height', 'width', 'depth']
 
 
 class PackForm(forms.ModelForm):
@@ -39,9 +39,6 @@ class PackForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Initialise with logic to pre-select a pack's item checkboxes."""
         super().__init__(*args, **kwargs)
-        self.fields["items"].required = False
-        self.fields["bag"].required = False
-        self.fields["description"].required = False
         self.fields["bag"].queryset = Bag.objects.all()
         self.fields["items"].queryset = Item.objects.all()
         self.selected_items = []

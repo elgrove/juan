@@ -6,7 +6,7 @@ class Base(models.Model):
 
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=32)
-    description = models.CharField(max_length=200, blank=True, null=True)
+    description = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -20,7 +20,24 @@ class Base(models.Model):
         return str(self.name)
 
 
-class Item(Base):
+class DimensionsMixin(models.Model):
+    weight = models.PositiveIntegerField(blank=True, null=True)
+    height = models.PositiveIntegerField(blank=True, null=True)
+    width = models.PositiveIntegerField(blank=True, null=True)
+    depth = models.PositiveIntegerField(blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+    @property
+    def dimensions(self):
+        return (self.height, self.width, self.depth)
+
+    @property
+    def weight_kilos(self):
+        return self.weight/1000
+
+class Item(DimensionsMixin, Base):
     """Object presenting an Item in a Pack.
 
     A Pack can have many items.
@@ -31,7 +48,9 @@ class Item(Base):
     category = models.CharField(max_length=32)
 
 
-class Bag(Base):
+
+
+class Bag(DimensionsMixin, Base):
     """Object presenting a Bag of a Pack.
 
     A Bag can be used by many packs.
