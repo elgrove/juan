@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Base(models.Model):
@@ -35,7 +36,8 @@ class DimensionsMixin(models.Model):
 
     @property
     def weight_kilos(self):
-        return self.weight/1000
+        return self.weight / 1000
+
 
 class Item(DimensionsMixin, Base):
     """Object presenting an Item in a Pack.
@@ -46,8 +48,7 @@ class Item(DimensionsMixin, Base):
     """
 
     category = models.CharField(max_length=32)
-
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Bag(DimensionsMixin, Base):
@@ -56,16 +57,19 @@ class Bag(DimensionsMixin, Base):
     A Bag can be used by many packs.
     """
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
 class Pack(Base):
     """Object representing a Pack, with a bag and items.
 
-    A Pack can have only one bag.
+    A Pack can have only one bag. A Pack can have many items.
 
-    A Pack can have many items.
+    A Pack can have one user, a User can have many packs.
     """
 
     bag = models.ForeignKey(
         Bag, on_delete=models.SET_NULL, null=True, related_name="packs"
     )
     items = models.ManyToManyField("Item", blank=True, related_name="packs")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

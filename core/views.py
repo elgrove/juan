@@ -26,6 +26,10 @@ class PackCreateView(CreateView):
         """Returns create success url."""
         return reverse_lazy("packs_list")
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class BagDeleteView(DeleteView):
     model = Bag
@@ -62,6 +66,9 @@ class PackListView(ListView):
     context_object_name = "packs"
     ordering = ["-modified_at"]
 
+    def get_queryset(self):
+        return Pack.objects.filter(user=self.request.user).order_by(self.ordering[0])
+
 
 class PackDeleteView(DeleteView):
     model = Pack
@@ -78,6 +85,10 @@ class BagCreateView(CreateView):
     def get_success_url(self):
         """Returns create success url."""
         return reverse_lazy("bags_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class BagUpdateView(UpdateView):
@@ -100,6 +111,9 @@ class BagListView(ListView):
     context_object_name = "bags"
     ordering = ["-modified_at"]
 
+    def get_queryset(self):
+        return Bag.objects.filter(user=self.request.user).order_by(self.ordering[0])
+
 
 class ItemCreateView(CreateView):
     """View to create an Item."""
@@ -111,6 +125,10 @@ class ItemCreateView(CreateView):
     def get_success_url(self):
         """Returns create success url."""
         return reverse_lazy("items_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class ItemUpdateView(UpdateView):
@@ -132,6 +150,9 @@ class ItemListView(ListView):
     template_name = "core/items.html"
     context_object_name = "items"
     ordering = ["-modified_at"]
+
+    def get_queryset(self):
+        return Item.objects.filter(user=self.request.user).order_by(self.ordering[0])
 
     @property
     def categories(self):
