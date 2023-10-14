@@ -5,4 +5,11 @@ Welcome to juan, a packing app
 {% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
+<p>Welcome back, {{ user.username|capfirst }}.</p>
+
+
+{% endif %}
+
 {% endblock %}
