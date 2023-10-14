@@ -5,6 +5,8 @@ from core import views
 urlpatterns = [
     # home
     path("", views.index, name="index"),
+    # sign up page
+    path("signup/", views.SignUpView.as_view(), name="signup"),
     # pack
     path("pack/new/", views.PackCreateView.as_view(), name="pack_create"),
     path("packs/", views.PackListView.as_view(), name="packs_list"),
