@@ -6,6 +6,12 @@ from django.test.utils import setup_databases, setup_test_environment
 
 os.environ["DJANGO_SETTINGS_MODULE"] = "project.settings"
 
+TEST_DIMENSIONS = dict(
+    weight=1,
+    height=1,
+    width=1,
+    depth=1,
+)
 
 if not apps.ready:
     django.setup()  # Normal Django setup
@@ -16,3 +22,12 @@ if not apps.ready:
     # keepdb probably should be a setting inside vscode.
     # Our project takes an hour to run migrations from scratch, so we need keepdb,
     # but normally no one wants to keep test databases around.
+
+from django.test import TestCase
+from django.contrib.auth.models import User
+
+
+class UserLoggedInTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("testuser", "test@example.com", "password")
+        self.client.force_login(self.user)

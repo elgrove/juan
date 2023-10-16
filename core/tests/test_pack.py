@@ -3,12 +3,18 @@ from django.urls import reverse
 
 from core.forms import PackForm
 from core.models import Bag, Item, Pack
+from core.tests import UserLoggedInTestCase
+
+TEST_PACK = {"name": "TestPack", "description": "Test Description"}
 
 
-class PackCreateViewTest(TestCase):
+class PackCreateViewTest(UserLoggedInTestCase):
     def setUp(self):
-        self.bag = Bag.objects.create(name="TestBag")
-        self.item = Item.objects.create(name="TestItem", category="TestCategory")
+        super().setUp()
+        self.bag = Bag.objects.create(name="TestBag", user_id=self.user.id)
+        self.item = Item.objects.create(
+            name="TestItem", category="TestCategory", user_id=self.user.id
+        )
         self.create_url = reverse("pack_create")
 
     def test_view_uses_correct_form(self):
@@ -27,12 +33,15 @@ class PackCreateViewTest(TestCase):
         self.assertRedirects(response, reverse("packs_list"))
 
 
-class PackDeleteViewTest(TestCase):
+class PackDeleteViewTest(UserLoggedInTestCase):
     def setUp(self):
-        self.pack = Pack.objects.create(name="TestPack", description="test description")
-        self.related_item = Item.objects.create(name="TestItem")
+        super().setUp()
+        self.pack = Pack.objects.create(
+            name="TestPack", description="test description", user_id=self.user.id
+        )
+        self.related_item = Item.objects.create(name="TestItem", user_id=self.user.id)
         self.pack.items.set([self.related_item])
-        self.related_bag = Bag.objects.create(name="TestBag")
+        self.related_bag = Bag.objects.create(name="TestBag", user_id=self.user.id)
         self.pack.bag = self.related_bag
 
     def test_view_url(self):

@@ -4,6 +4,7 @@ from django.urls import reverse
 
 from core.forms import ItemForm
 from core.models import Item, Pack
+from core.tests import TEST_DIMENSIONS, UserLoggedInTestCase
 
 TEST_ITEM = {
     "name": "TestItem",
@@ -24,7 +25,7 @@ class ItemFormTest(TestCase):
         self.assertFalse(form.is_valid())
 
 
-class ItemCreateViewTest(TestCase):
+class ItemCreateViewTest(UserLoggedInTestCase):
     def test_view_url(self):
         response = self.client.get(reverse("item_create"))
         self.assertEqual(response.status_code, 200)
@@ -38,9 +39,12 @@ class ItemCreateViewTest(TestCase):
         assert query_item.name == "TestItem"
 
 
-class ItemUpdateViewTest(TestCase):
+class ItemUpdateViewTest(UserLoggedInTestCase):
     def setUp(self):
-        self.item = Item.objects.create(**TEST_ITEM)
+        super().setUp()
+        self.item = Item.objects.create(
+            **TEST_ITEM, **TEST_DIMENSIONS, user_id=self.user.id
+        )
 
     def test_view_url(self):
         response = self.client.get(reverse("item_update", args=[str(self.item.id)]))
@@ -59,7 +63,7 @@ class ItemUpdateViewTest(TestCase):
         assert query_item.name == "RenamedItem"
 
 
-class ItemListViewTest(TestCase):
+class ItemListViewTest(UserLoggedInTestCase):
     @classmethod
     def setUpTestData(cls):
         number_of_items = 50
@@ -81,10 +85,13 @@ class ItemListViewTest(TestCase):
         self.assertIn("Electronics", response.context["category_map"])
 
 
-class ItemDeleteViewTest(TestCase):
+class ItemDeleteViewTest(UserLoggedInTestCase):
     def setUp(self):
-        self.item = Item.objects.create(name="TestItem", description="test description")
-        self.related_pack = Pack.objects.create(name="TestPack")
+        super().setUp()
+        self.item = Item.objects.create(
+            **TEST_ITEM, **TEST_DIMENSIONS, user_id=self.user.id
+        )
+        self.related_pack = Pack.objects.create(name="TestPack", user_id=self.user.id)
         self.related_pack.items.set([self.item])
 
     def test_view_url(self):
