@@ -10,8 +10,16 @@
 - [ ] create/update item - show categories as list or allow typed entry to create a new one
 - [x] auth, users, logins
 
-### LATER
+## publishable
 
+- [ ] bootstrap jumbotron and blurb for the landing page
+- [ ] bootstrap login page from their examples
+- [ ] 
+
+
+- [ ] start using it! dogfood
+- [ ] proper ui with react or htmx
+- [ ] share packing list and get a public link
 - [ ] dockerize
 - [ ] import from lighterpack
 - [ ] bulk add items (no attach to pack, just add items by name and maybe description)

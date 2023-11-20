@@ -144,5 +144,5 @@ LOGGING = {
     },
 }
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/packs"
 LOGOUT_REDIRECT_URL = "/"

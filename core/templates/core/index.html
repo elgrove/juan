@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %}
-Welcome to juan, a packing app
 {% endblock %}
 
 {% block content %}
 
-{% if user.is_authenticated %}
-<p>Welcome back, {{ user.username|capfirst }}.</p>
-
-
-{% endif %}
+<div class="jumbotron">
+    <h1 class="display-4">Effortless Packing, Every Trip</h1>
+    <p class="lead">Juan is designed for travelers who believe less is more. Juan is more than just an app; it's a revolution in travel packing. </p>    
+    <p class="lead">Say goodbye to the hassle of multiple bags and embrace the freedom of traveling with just 'juan'.</p>
+      <a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button">Sign up now to start packing smarter</a>
+    </p>
+  </div>
 
 {% endblock %}

@@ -1,6 +1,6 @@
 import logging
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
@@ -12,8 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    """View returning the home page."""
-    return render(request, "core/index.html", {})
+    """View returning the landing page for logged-out users."""
+    if request.user.is_authenticated:
+        return redirect("/packs")
+    else:
+        return render(request, "core/index.html", {})
 
 
 class SignUpView(CreateView):
