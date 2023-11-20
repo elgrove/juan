@@ -1,9 +1,9 @@
 import logging
 
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from core.forms import BagForm, ItemForm, PackForm
 from core.models import Bag, Item, Pack
@@ -15,11 +15,13 @@ def index(request):
     """View returning the landing page for logged-out users."""
     if request.user.is_authenticated:
         return redirect("/packs")
-    else:
-        return render(request, "core/index.html", {})
+
+    return render(request, "core/index.html", {})
 
 
 class SignUpView(CreateView):
+    """View returning the Django built-in signup form."""
+
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
@@ -37,23 +39,9 @@ class PackCreateView(CreateView):
         return reverse_lazy("packs_list")
 
     def form_valid(self, form):
+        """Assigns ownership of Pack to the logged-in user before validating."""
         form.instance.user = self.request.user
         return super().form_valid(form)
-
-
-class BagDeleteView(DeleteView):
-    model = Bag
-    success_url = reverse_lazy("bags_list")
-
-    @property
-    def related_packs(self):
-        return self.object.packs.get_queryset().all()
-
-    def get_context_data(self, **kwargs):
-        """Extends generic view context."""
-        context = super().get_context_data(**kwargs)
-        context["related_packs"] = self.related_packs
-        return context
 
 
 class PackUpdateView(UpdateView):
@@ -77,10 +65,13 @@ class PackListView(ListView):
     ordering = ["-modified_at"]
 
     def get_queryset(self):
+        """Returns Packs owned by the logged-in user."""
         return Pack.objects.filter(user=self.request.user).order_by(self.ordering[0])
 
 
 class PackDeleteView(DeleteView):
+    """View for deleting a Pack."""
+
     model = Pack
     success_url = reverse_lazy("packs_list")
 
@@ -97,6 +88,7 @@ class BagCreateView(CreateView):
         return reverse_lazy("bags_list")
 
     def form_valid(self, form):
+        """Assigns ownership of Bag to the logged-in user before validating."""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -113,6 +105,24 @@ class BagUpdateView(UpdateView):
         return reverse_lazy("bags_list")
 
 
+class BagDeleteView(DeleteView):
+    """View for deleting a Bag."""
+
+    model = Bag
+    success_url = reverse_lazy("bags_list")
+
+    @property
+    def related_packs(self):
+        """Returns the Packs this Bag is related to."""
+        return self.object.packs.get_queryset().all()
+
+    def get_context_data(self, **kwargs):
+        """Extends generic view context."""
+        context = super().get_context_data(**kwargs)
+        context["related_packs"] = self.related_packs
+        return context
+
+
 class BagListView(ListView):
     """View for listing Bags."""
 
@@ -122,6 +132,7 @@ class BagListView(ListView):
     ordering = ["-modified_at"]
 
     def get_queryset(self):
+        """Returns Bags owned by the logged-in user."""
         return Bag.objects.filter(user=self.request.user).order_by(self.ordering[0])
 
 
@@ -137,6 +148,7 @@ class ItemCreateView(CreateView):
         return reverse_lazy("items_list")
 
     def form_valid(self, form):
+        """Assigns ownership of the Item to the logged-in user."""
         form.instance.user = self.request.user
         return super().form_valid(form)
 
@@ -162,6 +174,7 @@ class ItemListView(ListView):
     ordering = ["-modified_at"]
 
     def get_queryset(self):
+        """Returns Bags owned by the logged-in user."""
         return Item.objects.filter(user=self.request.user).order_by(self.ordering[0])
 
     @property
@@ -185,11 +198,14 @@ class ItemListView(ListView):
 
 
 class ItemDeleteView(DeleteView):
+    """View for deleting an Item."""
+
     model = Item
     success_url = reverse_lazy("items_list")
 
     @property
     def related_packs(self):
+        """Returns Packs related to the Item being deleted."""
         return self.object.packs.get_queryset().all()
 
     def get_context_data(self, **kwargs):

@@ -64,11 +64,13 @@ class ItemUpdateViewTest(UserLoggedInTestCase):
 
 
 class ItemListViewTest(UserLoggedInTestCase):
-    @classmethod
-    def setUpTestData(cls):
+    def setUp(self):
+        super().setUp()
         number_of_items = 50
         for item_id in range(number_of_items):
-            Item.objects.create(name=f"Item {item_id}", category="Electronics")
+            Item.objects.create(
+                name=f"Item {item_id}", category="Electronics", user_id=self.user.id
+            )
 
     def test_view_url_exists(self):
         response = self.client.get("/items/")

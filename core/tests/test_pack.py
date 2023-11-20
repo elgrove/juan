@@ -1,4 +1,3 @@
-from django.test import TestCase
 from django.urls import reverse
 
 from core.forms import PackForm

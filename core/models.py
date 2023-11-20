@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 
 class Base(models.Model):
@@ -22,20 +22,26 @@ class Base(models.Model):
 
 
 class DimensionsMixin(models.Model):
+    """Mixin class used to add dimension fields to other models."""
+
     weight = models.PositiveIntegerField(blank=True, null=True)
     height = models.PositiveIntegerField(blank=True, null=True)
     width = models.PositiveIntegerField(blank=True, null=True)
     depth = models.PositiveIntegerField(blank=True, null=True)
 
     class Meta:
+        """Meta indicating abstract class."""
+
         abstract = True
 
     @property
     def dimensions(self):
+        """Returns a tuple with the dimensions of the object."""
         return (self.height, self.width, self.depth)
 
     @property
     def weight_kilos(self):
+        """Returns the item's weight in kilos."""
         return self.weight / 1000
 
 

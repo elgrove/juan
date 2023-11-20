@@ -17,7 +17,8 @@ class BagForm(forms.ModelForm):
         fields = ["name", "description", "weight", "height", "width", "depth"]
 
     def __init__(self, *args, **kwargs):
-        super(BagForm, self).__init__(*args, **kwargs)
+        """Override inherited init to mark required fields with asterisk."""
+        super().__init__(*args, **kwargs)
         for field_name in self.fields:
             field = self.fields[field_name]
             if field.required:
@@ -42,7 +43,8 @@ class ItemForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(ItemForm, self).__init__(*args, **kwargs)
+        """Override inherited init to mark required fields with asterisk."""
+        super().__init__(*args, **kwargs)
         for field_name in self.fields:
             field = self.fields[field_name]
             if field.required:

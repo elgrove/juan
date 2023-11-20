@@ -4,8 +4,6 @@ from django.urls import reverse
 
 from core.forms import BagForm
 from core.models import Bag, Pack
-from django.contrib.auth.models import User
-
 from core.tests import TEST_DIMENSIONS, UserLoggedInTestCase
 
 TEST_BAG = {"name": "TestBag", "description": "Test Description"}

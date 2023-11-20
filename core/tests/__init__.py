@@ -2,6 +2,8 @@ import os
 
 import django
 from django.apps import apps
+from django.contrib.auth.models import User
+from django.test import TestCase
 from django.test.utils import setup_databases, setup_test_environment
 
 os.environ["DJANGO_SETTINGS_MODULE"] = "project.settings"
@@ -22,9 +24,6 @@ if not apps.ready:
     # keepdb probably should be a setting inside vscode.
     # Our project takes an hour to run migrations from scratch, so we need keepdb,
     # but normally no one wants to keep test databases around.
-
-from django.test import TestCase
-from django.contrib.auth.models import User
 
 
 class UserLoggedInTestCase(TestCase):
