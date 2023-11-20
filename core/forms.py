@@ -14,7 +14,14 @@ class BagForm(forms.ModelForm):
         """Meta."""
 
         model = Bag
-        fields = ["name", "description", 'weight', 'height', 'width', 'depth']
+        fields = ["name", "description", "weight", "height", "width", "depth"]
+
+    def __init__(self, *args, **kwargs):
+        super(BagForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            if field.required:
+                field.label = f"{field.label}*"
 
 
 class ItemForm(forms.ModelForm):
@@ -24,7 +31,22 @@ class ItemForm(forms.ModelForm):
         """Meta."""
 
         model = Item
-        fields = ["name", "description", "category", 'weight', 'height', 'width', 'depth']
+        fields = [
+            "name",
+            "category",
+            "description",
+            "weight",
+            "height",
+            "width",
+            "depth",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(ItemForm, self).__init__(*args, **kwargs)
+        for field_name in self.fields:
+            field = self.fields[field_name]
+            if field.required:
+                field.label = f"{field.label}*"
 
 
 class PackForm(forms.ModelForm):
