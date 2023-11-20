@@ -4,6 +4,8 @@ Juan is a Django-based webapp designed for the minimalist traveler. Inspired by 
 
 I appreciate that the UI is a little spartan and needs some work, but the app is functional as-is and I have begun using it to plan packing lists for trips. It's great for remembering what to take when I visit my parents, and what I don't because I keep one there.
 
+This is the first Django project I've finished and published; I may not be following the Django idiom in, well, most places.
+
 ## Quick start
 
 - Clone this repo
